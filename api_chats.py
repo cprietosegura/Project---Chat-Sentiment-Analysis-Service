@@ -13,36 +13,39 @@ def index():
 def GetUserMessages(userName):
     return dumps(coll.find({'userName':userName})) 
 
-"""
 @post('/adduser')
 def addUser():
-    idUser=collection.distinct("idUser")[-1] + 1
-    name=request.forms.get("userName")
-    idMessage=collection.distinct("idMessage")[-1] + 1
-    idChat=collection.distinct("idChat")[-1] + 1
-    datetime=request.forms.get("datetime")
-    text=request.forms.get("text")
+    idUser=coll.distinct("idUser")[-1] + 1
+    name=str(request.forms.get("userName"))
+    print('name')
+    idMessage=coll.distinct("idMessage")[-1] + 1
+    idChat=coll.distinct("idChat")[-1] + 1
+    text=str(request.forms.get("text"))
+    print('text')
     document={"idUser":idUser,
                 "userName":name,
                 "idMessage":idMessage,
                 "idChat":idChat,
-                "datetime":datetime,
+            
                 "text":text}
 
     coll.insert_one(document)
     print("New user added to collection")
 
+"""
 @post('/user/create')
+
 def newUser():
     name = str(request.forms.get("name"))
-    new_id = collection.distinct("idUser")[-1] + 1
+    new_id = coll.distinct("idUser")[-1] + 1
     new_user = {
         "idUser": new_id,
         "userName": name
     }
-    print(f"{name} added to collection with id {new_id}")"""
-
+    coll.insert_one(new_user)
+    print("User added to collection")
+"""
 
      
-run(host='localhost', port=8080)
+run(host='0.0.0.0', port=8080)
 
