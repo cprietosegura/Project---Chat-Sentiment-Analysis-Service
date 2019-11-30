@@ -1,12 +1,6 @@
 from pymongo import MongoClient
 
-
 class CollConection:
-
-    def __init__(self,dbName,collection):
-        self.client = MongoClient()
-        self.db = self.client[dbName]
-        self.collection=self.db[collection]
 
     def addDocument(self,document):
         a=self.collection.insert_one(document)
@@ -21,4 +15,6 @@ class CollConection:
                 "datetime":datetime,
                 "text":text}
         return self.addDocument(document)
+ 
+
 

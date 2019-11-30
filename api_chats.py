@@ -1,44 +1,48 @@
 from bottle import route, run, get, post, request
+from pymongo import MongoClient
+from bson.json_util import dumps
+from mongo_populate import db, coll
 import random
-from mongo import CollConection
-import bson
-import getpass
 
 
+@get("/")
+def index():
+    return dumps(coll.find())
 
-@get("/chat/<tipo>")
-def demo2(tipo):
-    print(f"un chiste de {tipo}")
-    if tipo == "chiquito":
-        return {
-            "chiste": "Van dos soldados en una moto y no se cae ninguno porque van soldados"
-        }
-    elif tipo == "eugenio":
-        return {
-            "chiste": "Saben aquell que diu...."
-        }
-    else:
-        return {
-            "chiste": "No puedorrr!!"
-        }
+@get("/chat/<userName>")
+def GetUserMessages(userName):
+    return dumps(coll.find({'userName':userName})) 
 
-@post('/add')
-def add():
-    print(dict(request.forms))
-    idUser=request.forms.get("idUser")
+"""
+@post('/adduser')
+def addUser():
+    idUser=collection.distinct("idUser")[-1] + 1
     name=request.forms.get("userName")
-    idMessage=request.forms.get("idMessage")
-    idChat=request.forms.get("idChat")
+    idMessage=collection.distinct("idMessage")[-1] + 1
+    idChat=collection.distinct("idChat")[-1] + 1
     datetime=request.forms.get("datetime")
     text=request.forms.get("text")
+    document={"idUser":idUser,
+                "userName":name,
+                "idMessage":idMessage,
+                "idChat":idChat,
+                "datetime":datetime,
+                "text":text}
 
-    return {
-        "inserted_doc": str(coll.addChat(idUser, name, idMessage, idChat, datetime, text))}
+    coll.insert_one(document)
+    print("New user added to collection")
+
+@post('/user/create')
+def newUser():
+    name = str(request.forms.get("name"))
+    new_id = collection.distinct("idUser")[-1] + 1
+    new_user = {
+        "idUser": new_id,
+        "userName": name
+    }
+    print(f"{name} added to collection with id {new_id}")"""
 
 
-password = getpass.getpass("Insert your AtlasMongoDB admin_1019 password: ")
-connection = "mongodb+srv://Celia_Mongodb:{}@cluster0-u6tdq.mongodb.net/test?retryWrites=true&w=majority".format(password)
-
-coll=CollConection('chats-sentiment','chat1')
-run(host='0.0.0.0', port=8080)
+     
+run(host='localhost', port=8080)
 
