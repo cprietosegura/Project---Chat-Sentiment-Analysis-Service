@@ -4,8 +4,7 @@ import pandas as pd
 from bson.json_util import dumps
 
 def getSentimentReport(chat):
-    chat=dumps(chat)
-    print(chat)
+    chat=json.loads(chat)
     sid = SentimentIntensityAnalyzer()
     scores=[]
     conversation=[]
