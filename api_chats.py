@@ -36,21 +36,25 @@ def sentimentReport(idChat):
 
 
 #POST
-@post('/user/create')
+"""@post('/user/create')
 def newUser():
-    """Adds a new user to the database"""
+    #Adds a new user to the database
     name = str(request.forms.get("userName"))
     new_id = coll.distinct("idUser")[-1] + 1
     new_user ={
         "idUser": new_id,
         "userName": name}
-    coll.insert_one(new_user)
-    print("User added to collection")
+    all_users = list(coll.aggregate([{'$project':{'userName':1}}]))
+    if name in [user['userName'] for user in all_users]:
+        print("Error! This user already exists.")
+    else:
+        coll.insert_one(new_user)
+        print("User added to collection")"""
 
 
-@post('/adduser')
+@post('/user/create')
 def addUserProfile():
-    """you can add an user and her message to the database"""
+    """Adds new user and her message to new chat in the database"""
     idUser=coll.distinct("idUser")[-1] + 1
     name=str(request.forms.get("userName"))
     idMessage=coll.distinct("idMessage")[-1] + 1
@@ -62,15 +66,18 @@ def addUserProfile():
                 "idChat":idChat,
             
                 "text":text}
-
-    coll.insert_one(document)
-    print("New user added to collection")
-
+    all_users = list(coll.aggregate([{'$project':{'userName':1}}]))
+    if name in [user['userName'] for user in all_users]:
+        print("Error! This user already exists.")
+    else:
+        coll.insert_one(document)
+        print("User and message added to collection")
 
 
 @post('/chat/<idChat>/adduser')
 def addUserToChat(idChat):
     """you can add an user and her message to an existing chat"""
+    #que busque si existe el usuario y que use su id si existe
     idUser=coll.distinct("idUser")[-1] + 1
     name=str(request.forms.get("userName"))
     idMessage=coll.distinct("idMessage")[-1] + 1
@@ -102,7 +109,7 @@ def addUserToChat(idChat,userName):
                 "text":text}
 
     coll.insert_one(document)
-    print("New user added to chat{}".format(idChat))"""
+    print("New user and message added to chat{}".format(idChat))"""
 
      
 run(host='0.0.0.0', port=8080)
