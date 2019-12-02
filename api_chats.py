@@ -14,10 +14,15 @@ def welcome():
 @get("/<userName>")
 def GetUserMessages(userName):
     """Returns all the user messages"""
-    return dumps(coll.find({'userName':userName},{'userName':1,'text':1,'_id':0})) 
+    return dumps(coll.find({'userName':userName},{'userName':1,'text':1,'_id':0}))
+
+@get("/users")
+def getAllUsers():
+    """Returns all users"""
+    return dumps(coll.find({},{'userName':1,'_id':0}))      
 
 @get("/chat/<idChat>/list") 
-def GetChats(idChat):
+def getUsers(idChat):
     """Returns all the messages of a selected chat"""
     return dumps(coll.find({'idChat' :int(idChat)},{'userName':1,'text':1,'_id':0}))
 
