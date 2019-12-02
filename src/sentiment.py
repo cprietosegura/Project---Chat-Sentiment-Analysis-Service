@@ -24,8 +24,8 @@ def getFinalMetric(chat):
     final_sentiment_metric={}
     for s in scores:
         final_sentiment_metric['Negative']=scores[0]
-        final_sentiment_metric['Positive']=scores[1]
-        final_sentiment_metric['Neutral']=scores[2]
+        final_sentiment_metric['Positive']=scores[2]
+        final_sentiment_metric['Neutral']=scores[1]
     return final_sentiment_metric
 
 
