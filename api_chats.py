@@ -6,28 +6,27 @@ import random
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 #import pandas as pd
-from src.sentiment import getSentimentReport
+from src.sentiment import getSentimentReport, getFinalMetric
 
 #GET
 @get("/")
 def welcome():
-    """you can get all the database content"""
-    return "Welcome to the API! \n Enjoy exploring the chats."
+    """gives a welcome message"""
+    return "Welcome to the Chats API! \n Enjoy exploring the chats, adding new users and messages and analyzing their sentiment metric."
 
 @get("/<userName>")
 def GetUserMessages(userName):
-    """you can get all the user messages"""
+    """Returns all the user messages"""
     return dumps(coll.find({'userName':userName},{'userName':1,'text':1,'_id':0})) 
 
 @get("/chat/<idChat>/list") 
 def GetChats(idChat):
-    """you can get all the messages of a selected chat"""
+    """Returns all the messages of a selected chat"""
     return dumps(coll.find({'idChat' :int(idChat)},{'userName':1,'text':1,'_id':0}))
-
 
 @get("/chat/<idChat>/sentiment") 
 def sentimentReport(idChat):
-    """Analyze messages from chat_id"""
+    """Returns a report with the sentiment metric from a chat_id"""
     chat=dumps(coll.find({'idChat' :int(idChat)},{'userName':1,'text':1,'_id':0}))
     print(chat)
     print(chat[0])
@@ -36,19 +35,15 @@ def sentimentReport(idChat):
     return report
 
 
-
 #POST
 @post('/user/create')
 def newUser():
-    """you can add an user to the database"""
+    """Adds a new user to the database"""
     name = str(request.forms.get("userName"))
-    print(name)
     new_id = coll.distinct("idUser")[-1] + 1
-    print(new_id)
     new_user ={
         "idUser": new_id,
         "userName": name}
-    print(new_user)
     coll.insert_one(new_user)
     print("User added to collection")
 
