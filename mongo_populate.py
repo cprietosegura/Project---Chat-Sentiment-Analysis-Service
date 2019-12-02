@@ -18,7 +18,7 @@ def connectCollection(database, collection):
 
 db, coll = connectCollection('chats-sentiment','chat1')
 
-with open('chats.json') as f:
+with open('input/chats.json') as f:
     chats_json = json.load(f)
 
 if coll == 0:
