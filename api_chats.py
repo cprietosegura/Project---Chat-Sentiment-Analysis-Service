@@ -4,6 +4,7 @@ from bson.json_util import dumps
 from mongo_populate import db, coll
 import random
 from src.sentiment import getSentimentReport, getFinalMetric
+from src.recomendations import getUserList, getUsersMessages,getUsMessages,recomendations
 
 #GET
 @get("/")
@@ -36,9 +37,25 @@ def sentimentReport(idChat):
 @get("/user/<userName>/recommend")
 def GetUserMessages(userName):
     """Returns all the user messages"""
-    user=dumps(coll.find({'userName':userName},{'userName':1,'text':1,'_id':0})) 
-    report=getSentimentReport(user)
-    return report
+    url='http://localhost:8080/users'
+    lista_users=getUserList(url)
+    all_usermess=getUsersMessages(lista_users)
+    todo=[]
+    for u in all_usermess:
+        e=getUsMessages(u)
+        todo.append(e)
+    dic_users={}
+    for dic in todo:
+        keys=list(dic.keys())
+        values=list(dic.values())
+        dic_users[keys[0]]=values[0]
+
+    rec=recomendations(dic_users)
+    dic={}
+    dic['recomendation']=rec.loc[userName]
+    return dumps(dic)
+
+
 
 #POST
 @post('/user/create')
