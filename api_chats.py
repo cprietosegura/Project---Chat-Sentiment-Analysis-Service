@@ -1,7 +1,6 @@
 from bottle import route, run, get, post, request
 from pymongo import MongoClient
 from bson.json_util import dumps
-import json
 from mongo_populate import db, coll
 import random
 import nltk
