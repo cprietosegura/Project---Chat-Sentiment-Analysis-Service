@@ -20,7 +20,7 @@ def GetUserMessages(userName):
 @get("/users")
 def getAllUsers():
     """Returns all users"""
-    return dumps(coll.find({},{'userName':1,'_id':0}))      
+    return dumps(coll.find({}).distinct('userName'))    
 
 @get("/chat/<idChat>/list") 
 def getUsers(idChat):
