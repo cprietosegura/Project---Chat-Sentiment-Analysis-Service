@@ -59,7 +59,7 @@ def addUserProfile():
 
 @post('/chat/<idChat>/add')
 def addUserToChat(idChat):
-    """Adds user and messages to a chat"""
+    """Adds contents to a chat"""
 
     idUser=coll.distinct("idUser")[-1] + 1
     name=str(request.forms.get("userName"))
