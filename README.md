@@ -1,5 +1,5 @@
 # Project---Chat-Sentiment-Analysis-Service
-En este proyecto he desarrollado una API conectada a una base de datos en MongoDB Atlas con chats y conversaciones de diferentes usuarios. La API ofrece un servicio de consulta de dichos chats y usuarios, así como la posibilidad de obtener un informe de sentimientos de cada chat. Asimismo, también es posible cargar nuevos usuarios y conversaciones a la base de datos existente.
+En este proyecto he desarrollado una API en Python conectada a una base de datos en MongoDB Atlas con chats y conversaciones de diferentes usuarios. La API, desarrollada con Bottle, ofrece un servicio de consulta de dichos chats y usuarios, así como la posibilidad de obtener un informe de sentimientos de cada chat. Asimismo, también es posible cargar nuevos usuarios y conversaciones a la base de datos existente.
 
 ### Cómo usar la API: ###
 
